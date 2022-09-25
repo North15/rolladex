@@ -4,7 +4,7 @@ import initMiddleware from "./initMiddleware";
 const cors = initMiddleware(
     Cors({
         credentials: true,
-        origin: ["https://studio.apolloserver.com"],
+        origin: ["https://studio.apollographql.com"],
     })
 );
 
