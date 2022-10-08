@@ -1,6 +1,6 @@
 import { makeSchema } from "nexus";
 import { join } from "path";
-import * as types from "./types/test";
+import * as types from "./types/index";
 
 const schema = makeSchema({
     types,
