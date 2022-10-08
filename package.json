@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "npm run generate",
+    "build:nexus-typegen": "ts-node --transpile-only src/modules/graphql/schema.ts",
+    "predev": "npm run build:nexus-typegen && npm run generate",
     "dev": "next dev",
     "prebuild": "npm run generate",
     "build": "next build",

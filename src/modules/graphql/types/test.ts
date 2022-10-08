@@ -1,6 +1,6 @@
 import { extendType, nonNull, booleanArg } from "nexus";
 
-export const testQuery = extendType({
+export const TestQuery = extendType({
     type: "Query",
     definition(t) {
         t.boolean("test", {
