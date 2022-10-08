@@ -4,7 +4,7 @@
  */
 
 
-import type { Context } from "./../types/Context"
+import type { Context } from "./../src/types/Context"
 
 
 

@@ -3,10 +3,11 @@ import Register from "../modules/components/login/Register";
 import { addApolloState, initializeApollo } from "../lib/apolloClient";
 import { prisma } from "../lib/prisma";
 import { gql, useQuery } from "@apollo/client";
+import { TestDocument, useTestQuery } from "../../generated/graphql";
 
 const Home: NextPage = () => {
-    const { data } = useQuery(testQuery, {
-        notifyOnNetworkStatusChanges: true,
+    const { data } = useTestQuery({
+        notifyOnNetworkStatusChange: true,
     });
 
     return (
@@ -21,7 +22,7 @@ export const getServerSideProps = async ({
     req,
 }: GetServerSidePropsContext) => {
     const apolloClient = initializeApollo({ ctx: { req, prisma } });
-    await apolloClient.query({ query: testQuery });
+    await apolloClient.query({ query: TestDocument });
     return addApolloState(apolloClient, { props: {} });
 };
 
