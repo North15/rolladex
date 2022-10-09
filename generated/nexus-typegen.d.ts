@@ -39,6 +39,10 @@ export interface NexusGenScalars {
 export interface NexusGenObjects {
   Mutation: {};
   Query: {};
+  implicitLoginResponse: { // root type
+    loggedIn: boolean; // Boolean!
+    username?: string | null; // String
+  }
   loginResponse: { // root type
     username?: string | null; // String
   }
@@ -63,7 +67,12 @@ export interface NexusGenFieldTypes {
     login: NexusGenRootTypes['loginResponse'] | null; // loginResponse
   }
   Query: { // field return type
+    implicitLogin: NexusGenRootTypes['implicitLoginResponse'] | null; // implicitLoginResponse
     test: boolean | null; // Boolean
+  }
+  implicitLoginResponse: { // field return type
+    loggedIn: boolean; // Boolean!
+    username: string | null; // String
   }
   loginResponse: { // field return type
     username: string | null; // String
@@ -79,7 +88,12 @@ export interface NexusGenFieldTypeNames {
     login: 'loginResponse'
   }
   Query: { // field return type name
+    implicitLogin: 'implicitLoginResponse'
     test: 'Boolean'
+  }
+  implicitLoginResponse: { // field return type name
+    loggedIn: 'Boolean'
+    username: 'String'
   }
   loginResponse: { // field return type name
     username: 'String'
