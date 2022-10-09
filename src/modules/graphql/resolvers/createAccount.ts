@@ -15,58 +15,49 @@ export const createAccount: FieldResolver<"Mutation", "createAccount"> = async (
     { credentials },
     { prisma }
 ) => {
-    try {
-        //Validate teh credentials
-        await registerValidation.validate(credentials);
-        const existingUser = await prisma.user.findFirst({
-            where: {
-                username: credentials.username,
-                OR: {
-                    email: credentials.email,
-                },
+    //Validate the credentials
+    await registerValidation.validate(credentials);
+    const existingUser = await prisma.user.findFirst({
+        where: {
+            username: credentials.username,
+            OR: {
+                email: credentials.email,
             },
-        });
-        //Check if username or email is already used
-        if (existingUser !== null) {
-            throw new Error("Email or username already taken!");
-        }
-        //hash password
-        const hashedPass = await hash(credentials.password, 7);
-
-        //create user object in redis and set expiration
-        const key = uuidv4();
-        const userObj = {
-            username: credentials.username,
-            email: credentials.email,
-            hashedPass,
-        };
-        await getRedisClient()
-            .multi()
-            .hmset(key, userObj)
-            .expire(key, 60 * 5)
-            .exec();
-
-        //Send email for verification
-        const transport = await getTransport();
-        const mailOptions = generateVerificationEmail({
-            username: credentials.username,
-            email: credentials.email,
-            uuid: key,
-        });
-        transport.sendMail(mailOptions).then((info) => {
-            console.log(`Message id: ${info.messageId}`);
-            console.log(`URL ${nodemailer.getTestMessageUrl(info)}`);
-        });
-        return {
-            message:
-                "Thanks for registering! Check your email to validate your account.",
-            error: false,
-        };
-    } catch (err) {
-        const message = (err as ValidationError).message || "Invalid Input";
-        return {
-            message,
-            error: true,
-        };
+        },
+    });
+    //Check if username or email is already used
+    if (existingUser !== null) {
+        throw new Error("Email or username already taken!");
     }
+    //hash password
+    const hashedPass = await hash(credentials.password, 7);
+
+    //create user object in redis and set expiration
+    const key = uuidv4();
+    const userObj = {
+        username: credentials.username,
+        email: credentials.email,
+        hashedPass,
+    };
+    await getRedisClient()
+        .multi()
+        .hmset(key, userObj)
+        .expire(key, 60 * 5)
+        .exec();
+
+    //Send email for verification
+    const transport = await getTransport();
+    const mailOptions = generateVerificationEmail({
+        username: credentials.username,
+        email: credentials.email,
+        uuid: key,
+    });
+    transport.sendMail(mailOptions).then((info) => {
+        console.log(`Message id: ${info.messageId}`);
+        console.log(`URL ${nodemailer.getTestMessageUrl(info)}`);
+    });
+    return {
+        message:
+            "Thanks for registering! Check your email to validate your account.",
+    };
 };
