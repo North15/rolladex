@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import {
     Container,
@@ -11,9 +11,17 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
 import LoginInput from "./loginInput";
+import { useRegisterAccountMutation } from "../../../../generated/graphql";
+import { ApolloError } from "apollo-server-micro";
+import StatusText from "./statusText";
 
 const Register = () => {
     const router = useRouter();
+    const [registerMutation] = useRegisterAccountMutation({
+        notifyOnNetworkStatusChange: true,
+    });
+    const [errMsg, setErrMsg] = useState<string | undefined>();
+    const [statusMsg, setStatusMsg] = useState<string | undefined>();
     return (
         <Container h="100vh">
             <Head>
@@ -48,14 +56,32 @@ const Register = () => {
                             "Passwords don't match"
                         ),
                 })}
-                onSubmit={(values, actions) => {
-                    console.log(values);
+                onSubmit={async (values, actions) => {
+                    const creds = { ...values };
                     actions.resetForm();
+                    try {
+                        const { data } = await registerMutation({
+                            variables: {
+                                credentials: {
+                                    email: creds.email,
+                                    username: creds.username,
+                                    password: creds.password,
+                                },
+                            },
+                        });
+                        setStatusMsg(data?.createAccount?.message);
+                    } catch (error) {
+                        setErrMsg((error as ApolloError).message);
+                    }
                 }}
             >
                 <VStack h="100%" justify="center">
                     <VStack as={Form} shadow="2xl" w="100%" bg="gray.50" p="4">
                         <Heading>Register</Heading>
+                        <StatusText
+                            errMsg={errMsg}
+                            statusMsg={statusMsg}
+                        ></StatusText>
                         <LoginInput name="email" label="Email" />
                         <LoginInput name="username" label="Username" />
                         <LoginInput

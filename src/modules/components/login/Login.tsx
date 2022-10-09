@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import {
     Container,
@@ -12,9 +12,16 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
 import LoginInput from "./loginInput";
+import { useLoginMutation } from "../../../../generated/graphql";
+import StatusText from "./statusText";
+import { ApolloError } from "apollo-server-micro";
 
 const Login = () => {
     const router = useRouter();
+    const [loginMutation] = useLoginMutation({
+        notifyOnNetworkStatusChange: true,
+    });
+    const [errMsg, setErrMsg] = useState<string | undefined>();
     return (
         <Container h="100vh">
             <Head>
@@ -40,14 +47,28 @@ const Login = () => {
                         .required("Password is required")
                         .min(6, "Password too short"),
                 })}
-                onSubmit={(values, actions) => {
-                    console.log(values);
+                onSubmit={async (values, actions) => {
+                    const creds = { ...values };
                     actions.resetForm();
+                    try {
+                        const { data } = await loginMutation({
+                            variables: {
+                                credentials: {
+                                    username: creds.username,
+                                    password: creds.password,
+                                },
+                            },
+                        });
+                        router.push("/");
+                    } catch (error) {
+                        setErrMsg((error as ApolloError).username);
+                    }
                 }}
             >
                 <VStack h="100%" justify="center">
                     <VStack as={Form} shadow="2xl" w="100%" bg="gray.50" p="4">
                         <Heading>Login</Heading>
+                        <StatusText errMsg={errMsg}></StatusText>
                         <LoginInput name="username" label="Username" />
                         <LoginInput
                             name="password"
