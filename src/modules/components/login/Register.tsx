@@ -10,10 +10,10 @@ import {
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
-import LoginInput from "./loginInput";
+import LoginInput from "./sub/loginInput";
 import { useRegisterAccountMutation } from "../../../../generated/graphql";
 import { ApolloError } from "apollo-server-micro";
-import StatusText from "./statusText";
+import StatusText from "./sub/statusText";
 
 const Register = () => {
     const router = useRouter();

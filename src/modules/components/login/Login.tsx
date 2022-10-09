@@ -11,9 +11,9 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
-import LoginInput from "./loginInput";
+import LoginInput from "./sub/loginInput";
 import { useLoginMutation } from "../../../../generated/graphql";
-import StatusText from "./statusText";
+import StatusText from "./sub/statusText";
 import { ApolloError } from "apollo-server-micro";
 
 const Login = () => {

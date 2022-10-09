@@ -17,7 +17,6 @@ input loginCredentials {
 }
 
 type loginResponse {
-  message: String
   username: String
 }
 

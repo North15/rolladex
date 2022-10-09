@@ -48,7 +48,6 @@ export type LoginCredentials = {
 
 export type LoginResponse = {
   __typename?: 'loginResponse';
-  message?: Maybe<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
 };
 

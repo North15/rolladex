@@ -40,7 +40,6 @@ export interface NexusGenObjects {
   Mutation: {};
   Query: {};
   loginResponse: { // root type
-    message?: string | null; // String
     username?: string | null; // String
   }
   registerResponse: { // root type
@@ -67,7 +66,6 @@ export interface NexusGenFieldTypes {
     test: boolean | null; // Boolean
   }
   loginResponse: { // field return type
-    message: string | null; // String
     username: string | null; // String
   }
   registerResponse: { // field return type
@@ -84,7 +82,6 @@ export interface NexusGenFieldTypeNames {
     test: 'Boolean'
   }
   loginResponse: { // field return type name
-    message: 'String'
     username: 'String'
   }
   registerResponse: { // field return type name

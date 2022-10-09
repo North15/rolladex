@@ -27,7 +27,6 @@ export const Login = extendType({
 const LoginResponse = objectType({
     name: "loginResponse",
     definition: (t) => {
-        t.string("message");
         t.string("username");
     },
 });
