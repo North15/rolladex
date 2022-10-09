@@ -26,7 +26,7 @@ function CreateIsomorphicLink(ctx?: SchemaContext | undefined) {
         });
     }
     const httpLink = new HttpLink({
-        uri: "http>//localhost:3000/api/graphql", // Server URL (must be absolute)
+        uri: "http://localhost:3000/api/graphql", // Server URL (must be absolute)
         credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
     });
     return from([httpLink]);

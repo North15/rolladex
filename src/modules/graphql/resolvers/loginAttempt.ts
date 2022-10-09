@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import nookies from "nookies";
-import { ValidationError } from "apollo-server-micro";
 import { compare } from "bcrypt";
 import { FieldResolver } from "nexus";
 import { createToken } from "../../utils/jwt";
@@ -20,14 +19,14 @@ export const loginAttempt: FieldResolver<"Mutation", "login"> = async (
     const encodedToken = await createToken(
         { username: existingUser.username },
         {
-            expiresIn: "1m",
+            expiresIn: "7d",
         }
     );
     //Save token in cookies
     nookies.set({ res }, "sid", encodedToken, {
         httpOnly: true,
         domain: process.env.SERVER_DOMAIN || undefined,
-        maxAge: 60 * 5,
+        maxAge: 60 * 60 * 24 * 7, // 7d
         sameSite: true,
         path: "/",
     } as CookieSerializeOptions);

@@ -1,13 +1,10 @@
 import nodemailer from "nodemailer";
 const { v4: uuidv4 } = require("uuid");
-import { ValidationError } from "apollo-server-micro";
 import { FieldResolver } from "nexus";
 import { hash } from "bcrypt";
-import * as Yup from "yup";
 import { getTransport } from "../../mail/transport";
 import { generateVerificationEmail } from "../../mail/verifyAccount";
 import { registerValidation } from "../../utils/registrationValidation";
-import { Hash } from "crypto";
 import { getRedisClient } from "../../../lib/redis";
 
 export const createAccount: FieldResolver<"Mutation", "createAccount"> = async (
@@ -42,7 +39,7 @@ export const createAccount: FieldResolver<"Mutation", "createAccount"> = async (
     await getRedisClient()
         .multi()
         .hmset(key, userObj)
-        .expire(key, 60 * 5)
+        .expire(key, 60 * 2)
         .exec();
 
     //Send email for verification

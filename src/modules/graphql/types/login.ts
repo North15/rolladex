@@ -24,13 +24,7 @@ export const Login = extendType({
     },
 });
 
-const LoginResponse = objectType({
-    name: "loginResponse",
-    definition: (t) => {
-        t.string("username");
-    },
-});
-
+//Input Types
 const loginCredentials = inputObjectType({
     name: "loginCredentials",
     definition: (t) => {
@@ -45,6 +39,14 @@ const registerCredentials = inputObjectType({
         t.nonNull.string("email");
         t.nonNull.string("username");
         t.nonNull.string("password");
+    },
+});
+
+//Response Types
+const LoginResponse = objectType({
+    name: "loginResponse",
+    definition: (t) => {
+        t.string("username");
     },
 });
 

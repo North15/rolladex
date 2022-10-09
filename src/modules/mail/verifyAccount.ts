@@ -21,7 +21,7 @@ export const generateVerificationEmail = (
     html: `<h1>Verify your account!</h1>\
         <p>Please click the link below to verify your account:</p>\
         <a href="${
-            process.env.SERVER_URL || "http://localhost:3000"
+            process.env.SERVER_URL || "http://localhost:3000/login"
         }/api/confrim_account?id=${
         credentials.uuid
     }" target="_blank">Register Account</a>`,

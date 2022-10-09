@@ -34,7 +34,7 @@ const handleRedisQuery = async (
     ) {
         return;
     }
-    console.log(cachedAccount);
+    console.log(cachedAccount); //remove me
     await prisma.user.create({
         data: {
             email: cachedAccount.email,
