@@ -8,14 +8,26 @@ import {
     ImplicitLoginDocument,
     ImplicitLoginQuery,
 } from "../../generated/graphql";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
+import HomePage from "../pages/home";
+import NotFound from "../modules/components/main/NotFound";
 
 interface Props {
     username: string;
     loggedIn: boolean;
 }
 
+//const Home = ({ loggedIn, username }: Props) => {
+//    return (
+//        <Routes>
+//            <Route path="/home" element={<HomePage />} />
+//            <Route path="*" element={<NotFound />} />
+//       </Routes>
+//    );
+//};
+
 const Home = ({ loggedIn, username }: Props) => {
-    return loggedIn ? <Heading>Welcome {username}</Heading> : <Register />;
+    return loggedIn ? <Heading>Welcome {username}</Heading> : <HomePage />;
 };
 
 export const getServerSideProps = async ({

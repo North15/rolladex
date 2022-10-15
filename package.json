@@ -40,6 +40,8 @@
     "nookies": "^2.5.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-icons": "^4.6.0",
+    "react-router-dom": "^6.4.2",
     "uuid": "^9.0.0",
     "yup": "^0.32.11"
   },
